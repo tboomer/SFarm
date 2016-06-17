@@ -1,0 +1,60 @@
+---
+title: "Images"
+author: "Tim Boomer"
+date: "May 16, 2016"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE,
+                      fig.width = 5, fig.height = 4)
+```
+
+## Results Default Image Compression
+
+The source images are 640 x 480
+
+```{r}
+library(imager)
+setwd('C:/Users/tboom_000/Documents/Personal/Projects/Kaggle/StateFarm')
+img <- load.image('./input/train/c1/img_928.jpg')
+plot(img)
+```
+
+## Grayscale reduces the three RGB values per pixel to one.
+
+```{r}
+gray <- grayscale(img)
+plot(gray)
+```
+
+Reducing the image size to 26 x 32 looks like this:
+
+```{r}
+plot(resize(gray, 26, 32))
+```
+
+Increasing resolution to 39 x 48 looks like this:
+
+```{r}
+plot(resize(gray, 39, 48))
+```
+
+This image shows why I want to experiment with edge detection, which looks at the
+gradient between pixels.
+
+```{r}
+dx <- imgradient(gray, 'x')
+dy <- imgradient(gray, 'y')
+plot(sqrt(dx^2 + dy^2))
+```
+
+It looks like this when resized to 26 X32:
+
+```{r}
+small <- resize(gray, 26, 32)
+dx <- imgradient(small, 'x')
+dy <- imgradient(small, 'y')
+plot(sqrt(dx^2 + dy^2))
+```
+
